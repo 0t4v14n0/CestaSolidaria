@@ -6,6 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 public record DataAutenticationUser(
 		@NotBlank
 		@Email
-		String email,
+		String cpf,
 		@NotBlank
 		String password) {}
