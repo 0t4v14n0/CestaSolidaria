@@ -1,5 +1,6 @@
 package com.CestaSolidaria.domain.user.dto;
 
+import com.CestaSolidaria.domain.user.enums.Situacao;
 import com.CestaSolidaria.domain.user.residencia.dto.DataRegisterResidencia;
 
 import jakarta.validation.constraints.NotBlank;
@@ -14,5 +15,7 @@ public record DataRegisterUser(
 		String senha,
 		@NotBlank
 		String telefone,
+		@NotBlank
+		Situacao situacao,
 		@NotNull
 		DataRegisterResidencia residencia) {}

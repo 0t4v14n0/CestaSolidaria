@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.CestaSolidaria.domain.user.dto.DataRegisterUser;
 import com.CestaSolidaria.domain.user.enums.Role;
+import com.CestaSolidaria.domain.user.enums.Situacao;
 import com.CestaSolidaria.domain.user.enums.Status;
 import com.CestaSolidaria.domain.user.residencia.Residencia;
 
@@ -22,7 +23,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-@Table(name = "user")
+@Table(name = "usuarios")
 @Entity(name = "User")
 public class User implements UserDetails{
 	
@@ -43,8 +44,12 @@ public class User implements UserDetails{
     @Enumerated(EnumType.STRING)
     private Status status;
     
+    @Enumerated(EnumType.STRING)
+    private Situacao situacao;
+    
 	private double creditos;
-	private LocalDateTime criado_em;
+	@JoinColumn(name = "criado_em")
+	private LocalDateTime criadoEm;
 	
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "residencia_id", referencedColumnName = "id")
@@ -59,8 +64,9 @@ public class User implements UserDetails{
 		this.telefone = dataRegisterUser.telefone();
 		this.role = Role.ADMIN;
 		this.status = Status.PENDENTE;
+		this.situacao = dataRegisterUser.situacao();
 		this.creditos = 0;
-		this.criado_em = LocalDateTime.now();
+		this.criadoEm = LocalDateTime.now();
 		this.residencia = new Residencia(dataRegisterUser.residencia());
 	}
 
@@ -128,12 +134,12 @@ public class User implements UserDetails{
 		this.creditos = creditos;
 	}
 
-	public LocalDateTime getCriado_em() {
-		return criado_em;
+	public LocalDateTime getCriadoEm() {
+		return criadoEm;
 	}
-
-	public void setCriado_em(LocalDateTime criado_em) {
-		this.criado_em = criado_em;
+	
+	public void setCriadoEm(LocalDateTime criado_em) {
+		this.criadoEm = criado_em;
 	}
 
 	@Override

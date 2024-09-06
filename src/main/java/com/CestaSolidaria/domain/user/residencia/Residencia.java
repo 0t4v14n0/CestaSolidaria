@@ -20,7 +20,6 @@ public class Residencia {
 	
     @OneToOne(mappedBy = "residencia")
     private User usuarioId;
-	
 	private String endereco;
 	private String cidade;
 	private String estado;

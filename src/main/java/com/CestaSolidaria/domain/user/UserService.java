@@ -43,10 +43,9 @@ public class UserService {
         var authentication = manager.authenticate(authenticationToken);   
         var tokenJWT = tokenService.gerarToken((User)authentication.getPrincipal());   
         return ResponseEntity.ok(new TokenDataJWT(tokenJWT)); 
-		
 	}
 	
-    public String passwordCrypt(String password) {
+    private String passwordCrypt(String password) {
     	String psswordEncrypted = passwordEncoder.encode(password);
 		return psswordEncrypted;
     }

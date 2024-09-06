@@ -8,5 +8,4 @@ public record DataDeteilsUser(String nome,
     public DataDeteilsUser(User user) {
         this(user.getNome(), user.getStatus().name());
     }
-
 }
