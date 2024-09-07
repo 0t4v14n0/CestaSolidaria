@@ -6,6 +6,7 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.CestaSolidaria.domain.user.dependente.Dependente;
 import com.CestaSolidaria.domain.user.dto.DataRegisterUser;
 import com.CestaSolidaria.domain.user.enums.Role;
 import com.CestaSolidaria.domain.user.enums.Situacao;
@@ -20,15 +21,18 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 import java.util.Collections;
+import java.util.List;
 
 @Table(name = "usuarios")
 @Entity(name = "User")
 public class User implements UserDetails{
 	
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -56,6 +60,9 @@ public class User implements UserDetails{
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "residencia_id", referencedColumnName = "id")
     private Residencia residencia;
+    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Dependente> dependentes;
 	
 	public User() {}
 	
@@ -108,8 +115,8 @@ public class User implements UserDetails{
 		return telefone;
 	}
 
-	public void setTelefone(String numero) {
-		this.telefone = numero;
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
 	}
 
 	public Role getRole() {
@@ -128,6 +135,14 @@ public class User implements UserDetails{
 		this.status = status;
 	}
 
+	public Situacao getSituacao() {
+		return situacao;
+	}
+
+	public void setSituacao(Situacao situacao) {
+		this.situacao = situacao;
+	}
+
 	public double getCreditos() {
 		return creditos;
 	}
@@ -139,12 +154,28 @@ public class User implements UserDetails{
 	public LocalDateTime getCriadoEm() {
 		return criadoEm;
 	}
-	
-	public void setCriadoEm(LocalDateTime criado_em) {
-		this.criadoEm = criado_em;
+
+	public void setCriadoEm(LocalDateTime criadoEm) {
+		this.criadoEm = criadoEm;
 	}
 
-    @Override
+	public Residencia getResidencia() {
+		return residencia;
+	}
+
+	public void setResidencia(Residencia residencia) {
+		this.residencia = residencia;
+	}
+
+	public List<Dependente> getDependentes() {
+		return dependentes;
+	}
+
+	public void setDependentes(List<Dependente> dependentes) {
+		this.dependentes = dependentes;
+	}
+
+	@Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(role);
     }

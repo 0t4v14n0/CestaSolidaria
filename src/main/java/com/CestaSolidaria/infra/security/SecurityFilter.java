@@ -3,7 +3,6 @@ package com.CestaSolidaria.infra.security;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -34,7 +33,7 @@ public class SecurityFilter extends OncePerRequestFilter{
 			var subject = tokenService.getSubject(tokenJWT);
 			var user = repository.findByCpf(subject);
 			
-			var authentication = new UsernamePasswordAuthenticationToken(user,null,((AbstractAuthenticationToken) user).getAuthorities());
+			var authentication = new UsernamePasswordAuthenticationToken(user,null,user.getAuthorities());
 			
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		}

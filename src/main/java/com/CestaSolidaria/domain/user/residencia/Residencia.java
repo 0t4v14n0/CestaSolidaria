@@ -19,7 +19,8 @@ public class Residencia {
 	private Long id;
 	
     @OneToOne(mappedBy = "residencia")
-    private User usuarioId;
+    private User user;
+    
 	private String endereco;
 	private String cidade;
 	private String estado;

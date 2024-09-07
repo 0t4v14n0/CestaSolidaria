@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,8 +40,16 @@ public class UserController {
         return userService.login(data);
     }
     
+    @Transactional
+    @PutMapping
+    public ResponseEntity<DataDeteilsUser> atualizarUser(@RequestBody @Valid DataRegisterUser data,
+    													 Authentication authentication){
+		return ResponseEntity.ok(userService.atualizarUser(data,authentication.getName()));
+    }
+    
     @GetMapping
     public ResponseEntity<DataDeteilsUser> detalheUsuario(Authentication authentication){
 		return ResponseEntity.ok(new DataDeteilsUser(userService.buscaUsuario(authentication.getName())));
     }
+    
 }

@@ -11,8 +11,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.CestaSolidaria.domain.user.dto.DataAutenticationUser;
 import com.CestaSolidaria.domain.user.dto.DataDeteilsUser;
 import com.CestaSolidaria.domain.user.dto.DataRegisterUser;
+import com.CestaSolidaria.domain.user.residencia.Residencia;
 import com.CestaSolidaria.infra.security.TokenDataJWT;
 import com.CestaSolidaria.infra.security.TokenService;
+
+import jakarta.validation.Valid;
 
 @Service
 public class UserService {
@@ -43,6 +46,20 @@ public class UserService {
         var authentication = manager.authenticate(authenticationToken);   
         var tokenJWT = tokenService.gerarToken((User)authentication.getPrincipal());   
         return ResponseEntity.ok(new TokenDataJWT(tokenJWT)); 
+	}
+	
+	public DataDeteilsUser atualizarUser(@Valid DataRegisterUser data, String cpf) {
+		
+		User user = buscaUsuario(cpf);
+		
+		if(data.nome() != null && !data.nome().isEmpty())user.setNome(data.nome());
+		if(data.cpf() != null && !data.cpf().isEmpty())user.setCpf(data.cpf());
+		if(data.senha() != null && !data.senha().isEmpty())user.setSenha(data.senha());
+		if(data.telefone() != null && !data.telefone().isEmpty())user.setTelefone(data.telefone());
+		if(data.situacao() != null)user.setSituacao(data.situacao());
+		if(data.residencia() != null)user.setResidencia(new Residencia(data.residencia()));
+		
+		return new DataDeteilsUser(user);
 	}
 	
     private String passwordCrypt(String password) {
