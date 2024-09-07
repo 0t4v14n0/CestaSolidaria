@@ -50,8 +50,8 @@ public class UserService {
 		return psswordEncrypted;
     }
 
-	public User buscaUsuario(String name) {
-		return (User)userRepository.findByCpf(name);
+	public User buscaUsuario(String cpf) {
+		return (User)userRepository.findByCpf(cpf);
 	}
 
 }

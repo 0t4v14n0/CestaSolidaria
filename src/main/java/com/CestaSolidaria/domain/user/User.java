@@ -23,6 +23,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
+import java.util.Collections;
+
 @Table(name = "usuarios")
 @Entity(name = "User")
 public class User implements UserDetails{
@@ -142,10 +144,10 @@ public class User implements UserDetails{
 		this.criadoEm = criado_em;
 	}
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
-	}
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(role);
+    }
 	
 	@Override
 	public String getPassword() {
@@ -153,7 +155,7 @@ public class User implements UserDetails{
 	}
 	@Override
 	public String getUsername() {
-		return nome;
+		return cpf;
 	}
 
 }

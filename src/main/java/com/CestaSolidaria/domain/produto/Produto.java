@@ -2,6 +2,7 @@ package com.CestaSolidaria.domain.produto;
 
 import java.time.LocalDateTime;
 
+import com.CestaSolidaria.domain.produto.dto.DataRegisterProduto;
 import com.CestaSolidaria.domain.produto.enums.Categoria;
 
 import jakarta.persistence.Entity;
@@ -36,6 +37,19 @@ public class Produto {
 	@JoinColumn(name = "criado_em")
 	private LocalDateTime criadoEm;
 	
+	public Produto() {}
+	
+	public Produto(DataRegisterProduto data) {
+		this.nome = data.nome();
+		this.descricao = data.descricao();
+		this.preco = data.preco();
+		this.quantidade = data.quantidade();
+		this.volume = data.volume();
+		this.categoria = data.categoria();
+		this.urlImagem = data.urlImagem();
+		this.criadoEm = LocalDateTime.now();
+	}
+
 	public Long getId() {
 		return id;
 	}
