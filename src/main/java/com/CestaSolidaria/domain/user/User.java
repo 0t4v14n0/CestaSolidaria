@@ -40,20 +40,27 @@ public class User implements UserDetails{
 	private Long id;
 	
 	private String nome;
-	private String senha;
 	private String cpf;
+	private String senha;
 	private String telefone;
+	
+	@JoinColumn(name = "data_nascimento")
+	private String dataNascimento;
+	
+	@JoinColumn(name = "renda_total")
+	private double rendaTotal;
 	
     @Enumerated(EnumType.STRING)
     private Role role;
+    
+    private double creditos;
 
     @Enumerated(EnumType.STRING)
     private Status status;
     
     @Enumerated(EnumType.STRING)
     private Situacao situacao;
-    
-	private double creditos;
+	
 	@JoinColumn(name = "criado_em")
 	private LocalDateTime criadoEm;
 	
@@ -71,6 +78,8 @@ public class User implements UserDetails{
 		this.senha = dataRegisterUser.senha();
 		this.cpf = dataRegisterUser.cpf();
 		this.telefone = dataRegisterUser.telefone();
+		this.dataNascimento = dataRegisterUser.dataNascimento();
+		this.rendaTotal = dataRegisterUser.rendaTotal();
 		this.role = Role.ADMIN;
 		this.status = Status.PENDENTE;
 		this.situacao = dataRegisterUser.situacao();
@@ -113,6 +122,22 @@ public class User implements UserDetails{
 
 	public String getTelefone() {
 		return telefone;
+	}
+
+	public String getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNasdimento(String dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
+
+	public double getRendaTotal() {
+		return rendaTotal;
+	}
+
+	public void setRendaTotal(double rendaTotal) {
+		this.rendaTotal = rendaTotal;
 	}
 
 	public void setTelefone(String telefone) {

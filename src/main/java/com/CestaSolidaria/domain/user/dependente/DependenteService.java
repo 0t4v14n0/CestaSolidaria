@@ -40,11 +40,6 @@ public class DependenteService {
 		return new DataDeteilsDependente(dep);
 	}
 	
-	public void deleteDependente(Long id, String cpf) {
-		Dependente dep = findDependenteByUser(id, cpf);
-		dependenteRepository.delete(dep);
-	}
-	
 	public List<DataDeteilsDependente> todosDependentes(String cpf) {
 		
 		List<Dependente> dependentes = dependenteRepository.findAllByIdAndUser(userService.buscaUsuario(cpf));
@@ -53,6 +48,11 @@ public class DependenteService {
 		        .collect(Collectors.toList());
 		
 		return detalhesDependentes;
+	}
+	
+	public void deleteDependente(Long id, String cpf) {
+		Dependente dep = findDependenteByUser(id, cpf);
+		dependenteRepository.delete(dep);
 	}
 	
 	public DataDeteilsDependente dependentesPorId(Long id, String name) {
