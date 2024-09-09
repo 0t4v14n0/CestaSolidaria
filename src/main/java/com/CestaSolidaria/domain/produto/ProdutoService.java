@@ -1,5 +1,7 @@
 package com.CestaSolidaria.domain.produto;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +33,14 @@ public class ProdutoService {
 		if(data.urlImagem() != null && !data.urlImagem().isEmpty()) produto.setUrlImagem(data.urlImagem());
 
 		return new DataDeteilsProduto(produto);
+	}
+	
+	public double valorTotalMercadoria() {
+		List<Produto> p = produtoRepository.findAll();
+		double total = p.stream()
+                .mapToDouble(Produto::getPreco)
+                .sum();
+		return total;
 	}
 
 }

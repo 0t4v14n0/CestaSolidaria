@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.CestaSolidaria.domain.user.admin.DataRegisterVistoria;
 import com.CestaSolidaria.domain.user.admin.UserAdminService;
+import com.CestaSolidaria.domain.user.admin.dto.DataRegisterVistoria;
 import com.CestaSolidaria.domain.user.admin.dto.DataStatusUser;
 import com.CestaSolidaria.domain.user.enums.Status;
 

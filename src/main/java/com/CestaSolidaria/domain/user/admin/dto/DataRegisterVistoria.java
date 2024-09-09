@@ -1,4 +1,4 @@
-package com.CestaSolidaria.domain.user.admin;
+package com.CestaSolidaria.domain.user.admin.dto;
 
 import com.CestaSolidaria.domain.user.enums.Status;
 

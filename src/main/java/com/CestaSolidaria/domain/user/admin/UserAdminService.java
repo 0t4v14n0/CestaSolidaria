@@ -8,8 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.CestaSolidaria.domain.user.User;
 import com.CestaSolidaria.domain.user.UserRepository;
+import com.CestaSolidaria.domain.user.admin.dto.DataRegisterVistoria;
 import com.CestaSolidaria.domain.user.admin.dto.DataStatusUser;
-import com.CestaSolidaria.domain.user.dependente.DependenteRepository;
+import com.CestaSolidaria.domain.user.dto.DataDeteilsUser;
 import com.CestaSolidaria.domain.user.enums.Status;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -21,9 +22,6 @@ public class UserAdminService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	@Autowired
-	private DependenteRepository dependenteRepository;
-	
 	public Page<DataStatusUser> statusUsuario (Pageable pageable,Status status) {
 		
 	    Page<User> users = userRepository.findByStatus(status, pageable);
@@ -31,31 +29,13 @@ public class UserAdminService {
 		return data;
 	}
 
-	public ResponseEntity<?> vistoria(@Valid DataRegisterVistoria data) {
+	public ResponseEntity<DataDeteilsUser> vistoria(@Valid DataRegisterVistoria data) {
 		
 		User user = userRepository.findById(data.id())
 								  .orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));
-		
-		switch (data.status()) {
-		case APROVADO:
-			user.setCreditos(calculoCredito(user.getRendaTotal(),dependenteRepository.findAllByIdAndUser(user).size()));
-			break;
-		default:
-			break;
-		}
-		return null;
-	}
-	
-	private double calculoCredito(double rendaTotal, int dependentes) {
-		double rendaPercapita = rendaTotal/dependentes;
-		int faixaRenda = (rendaPercapita < 600) ? 1 : (rendaPercapita < 1200) ? 2 : 3;
-		switch(rendaPercapita) {
-		case 600:
-			break;
-		default:
-			break;
-		}
-		return 0;
+		user.setStatus(data.status());
+		userRepository.save(user);
+		return ResponseEntity.ok(new DataDeteilsUser(user));
 	}
 
 }
