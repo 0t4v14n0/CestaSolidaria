@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.CestaSolidaria.domain.produto.dto.DataDeteilsProduto;
 import com.CestaSolidaria.domain.produto.dto.DataRegisterProduto;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class ProdutoService {
 	
@@ -23,6 +25,10 @@ public class ProdutoService {
 	public DataDeteilsProduto updatedProduto(Long id, DataRegisterProduto data) {
 		
 		Produto produto = produtoRepository.findById(id).get();
+		
+    	if(produto == null) {
+    		new EntityNotFoundException("Produto não encontrado");
+    	}
 		
 		if(data.nome() != null && !data.nome().isEmpty()) produto.setNome(data.nome());
 		if(data.descricao() != null && !data.descricao().isEmpty()) produto.setDescricao(data.descricao());

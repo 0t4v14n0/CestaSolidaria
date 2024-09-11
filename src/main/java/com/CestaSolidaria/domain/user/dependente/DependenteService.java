@@ -11,6 +11,8 @@ import com.CestaSolidaria.domain.user.dependente.dto.DataAtualizarDependente;
 import com.CestaSolidaria.domain.user.dependente.dto.DataDeteilsDependente;
 import com.CestaSolidaria.domain.user.dependente.dto.DataRegisterDependente;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class DependenteService {
 	
@@ -32,6 +34,10 @@ public class DependenteService {
 		
 		Dependente dep = findDependenteByUser(data.id(), cpf);
 		
+    	if(dep == null) {
+    		new EntityNotFoundException("Dependente não encontrado");
+    	}
+		
 		if(data.nome() != null && !data.nome().isEmpty()) dep.setNome(data.nome());
 		if(data.cpf() != null && !data.cpf().isEmpty()) dep.setCpf(data.cpf());
 		if(data.dataNascimento() != null && !data.dataNascimento().isEmpty()) dep.setDataNascimento(data.dataNascimento());
@@ -43,6 +49,11 @@ public class DependenteService {
 	public List<DataDeteilsDependente> todosDependentes(String cpf) {
 		
 		List<Dependente> dependentes = dependenteRepository.findAllByIdAndUser(userService.buscaUsuario(cpf));
+		
+    	if(dependentes.isEmpty()) {
+    		new EntityNotFoundException("Dependentes não encontrado");
+    	}
+    	
 		List<DataDeteilsDependente> detalhesDependentes = dependentes.stream()
 		        .map(dependente -> new DataDeteilsDependente(dependente))
 		        .collect(Collectors.toList());

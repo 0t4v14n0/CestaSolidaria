@@ -1,5 +1,7 @@
 package com.CestaSolidaria.domain.user;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,6 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.CestaSolidaria.domain.user.dto.DataAutenticationUser;
 import com.CestaSolidaria.domain.user.dto.DataDeteilsUser;
 import com.CestaSolidaria.domain.user.dto.DataRegisterUser;
+import com.CestaSolidaria.domain.user.enums.Status;
 import com.CestaSolidaria.domain.user.residencia.Residencia;
 import com.CestaSolidaria.infra.security.TokenDataJWT;
 import com.CestaSolidaria.infra.security.TokenService;
@@ -51,7 +54,7 @@ public class UserService {
 	public DataDeteilsUser atualizarUser(@Valid DataRegisterUser data, String cpf) {
 		
 		User user = buscaUsuario(cpf);
-		
+
 		if(data.nome() != null && !data.nome().isEmpty())user.setNome(data.nome());
 		if(data.cpf() != null && !data.cpf().isEmpty())user.setCpf(data.cpf());
 		if(data.senha() != null && !data.senha().isEmpty())user.setSenha(data.senha());
@@ -69,6 +72,14 @@ public class UserService {
 
 	public User buscaUsuario(String cpf) {
 		return (User)userRepository.findByCpf(cpf);
+	}
+
+	public List<User> findByStatus(Status status) {
+		return userRepository.findByStatus(status, null);		
+	}
+
+	public void userRepositorySave(User user) {
+		userRepository.save(user);
 	}
 
 }

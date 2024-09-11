@@ -1,6 +1,7 @@
 package com.CestaSolidaria.domain.user;
 
-import org.springframework.data.domain.Page;
+import java.util.List;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,6 +11,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	User findByCpf(String subject);
 
-	Page<User> findByStatus(Status status, Pageable pageable);
+	List<User> findByStatus(Status status, Pageable pageable);
 
 }

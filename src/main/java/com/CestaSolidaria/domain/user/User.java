@@ -11,6 +11,7 @@ import com.CestaSolidaria.domain.user.dto.DataRegisterUser;
 import com.CestaSolidaria.domain.user.enums.Role;
 import com.CestaSolidaria.domain.user.enums.Situacao;
 import com.CestaSolidaria.domain.user.enums.Status;
+import com.CestaSolidaria.domain.user.enums.TipoBeneficio;
 import com.CestaSolidaria.domain.user.residencia.Residencia;
 
 import jakarta.persistence.CascadeType;
@@ -43,6 +44,9 @@ public class User implements UserDetails{
 	private String cpf;
 	private String senha;
 	private String telefone;
+	
+	@Enumerated(EnumType.STRING)
+	private TipoBeneficio tipoBeneficio;
 	
 	@JoinColumn(name = "data_nascimento")
 	private String dataNascimento;
@@ -142,6 +146,18 @@ public class User implements UserDetails{
 
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
+	}
+
+	public TipoBeneficio getTipoBeneficio() {
+		return tipoBeneficio;
+	}
+
+	public void setTipoBeneficio(TipoBeneficio tipoBeneficio) {
+		this.tipoBeneficio = tipoBeneficio;
+	}
+
+	public void setDataNascimento(String dataNascimento) {
+		this.dataNascimento = dataNascimento;
 	}
 
 	public Role getRole() {
