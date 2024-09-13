@@ -82,10 +82,15 @@ public class CreditoService {
         double valorPorTipo2 = (totalPrecoEstoque * (totalBeneficiariosTipo2 * pesoTipo2)) / totalPesos;
         double valorPorTipo3 = (totalPrecoEstoque * (totalBeneficiariosTipo3 * pesoTipo3)) / totalPesos;
         
+        double valorMedioTipo1 = valorPorTipo1/totalBeneficiariosTipo1;
+        double valorMedioTipo2 = valorPorTipo2/totalBeneficiariosTipo2;
+        double valorMedioTipo3 = valorPorTipo3/totalBeneficiariosTipo3;
+        
         List<Double> lista = new ArrayList<>();
-        lista.add(valorPorTipo1);
-        lista.add(valorPorTipo2);
-        lista.add(valorPorTipo3);
+                
+        lista.add((valorMedioTipo1 > 120) ? 120 : valorMedioTipo1);
+        lista.add((valorMedioTipo2 > 100) ? 100 : valorMedioTipo2);
+        lista.add((valorMedioTipo3 > 80 ) ? 80  : valorMedioTipo3);
         
         return lista;
     }

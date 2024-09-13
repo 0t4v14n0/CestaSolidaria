@@ -21,6 +21,6 @@ public enum TipoBeneficio {
                 return tipo;
             }
         }
-        throw new IllegalArgumentException("Valor invalido: " + valor);
+        throw new IllegalArgumentException("Valor invalido:" + valor);
     }
 }
