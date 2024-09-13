@@ -17,7 +17,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Table(name = "dependentes")
-@Entity(name = "Dependentes")
+@Entity(name = "Dependente")
 public class Dependente {
 	
 	@Id
@@ -43,7 +43,8 @@ public class Dependente {
 	
 	public Dependente () {}
 	
-	public Dependente (DataRegisterDependente data) {
+	public Dependente (DataRegisterDependente data, User userData) {
+		this.user = userData;
 		this.nome = data.nome();
 		this.dataNascimento = data.dataNascimento();
 		this.cpf = data.cpf();

@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import com.CestaSolidaria.domain.produto.ProdutoService;
 import com.CestaSolidaria.domain.user.User;
 import com.CestaSolidaria.domain.user.UserService;
+import com.CestaSolidaria.domain.user.admin.historicocredito.HistoricoCreditoService;
+import com.CestaSolidaria.domain.user.admin.historicocredito.dto.DataHistoricoCredito;
+import com.CestaSolidaria.domain.user.admin.historicocredito.enums.TipoMovimentacao;
 import com.CestaSolidaria.domain.user.enums.Status;
 import com.CestaSolidaria.domain.user.enums.TipoBeneficio;
 
@@ -27,6 +30,9 @@ public class CreditoService {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private HistoricoCreditoService historicoCreditoService;
+	
     @Scheduled(cron = "0 0 0 1 * ?")
     public void creditDaily() {
     	
@@ -40,7 +46,7 @@ public class CreditoService {
     	List<User> users = userService.findByStatus(Status.APROVADO);
     	
     	if(users.isEmpty()) {
-    		new EntityNotFoundException("Usuario não encontrado");
+    		new EntityNotFoundException("Usuarios não encontrados");
     	}
     	
     	List<Double> lista = calcValorPorTipo();
@@ -53,6 +59,11 @@ public class CreditoService {
                 case TIPO3 -> valorCredito = lista.get(2);
             }
             user.setCreditos(valorCredito);
+            
+            historicoCreditoService.registro(new DataHistoricoCredito(user,
+            														  TipoMovimentacao.ADICIONADO,
+            														  user.getCreditos(),
+            														  "Credito mensal adicionado."));
             userService.userRepositorySave(user);
         });
     }
@@ -94,7 +105,4 @@ public class CreditoService {
         
         return lista;
     }
-    
-    
-
 }

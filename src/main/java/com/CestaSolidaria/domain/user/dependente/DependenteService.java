@@ -24,7 +24,7 @@ public class DependenteService {
 	
 	public DataDeteilsDependente addDependente (DataRegisterDependente data, String nome) {
 		
-		Dependente dep = new Dependente(data);
+		Dependente dep = new Dependente(data,userService.buscaUsuario(nome));
 		dependenteRepository.save(dep);
 		
 		return new DataDeteilsDependente(dep);

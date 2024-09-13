@@ -41,7 +41,9 @@ CREATE TABLE carrinho (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario_id INT NOT NULL,
     total DECIMAL(10, 2) DEFAULT 0.00,
+    StatusCarrinho ENUM('ABERTO', 'FECHADO', 'CANCELADO', 'COLETADO') DEFAULT 'ABERTO',
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
@@ -52,26 +54,8 @@ CREATE TABLE carrinho_itens (
     quantidade INT NOT NULL,
     preco DECIMAL(10, 2) NOT NULL,
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (carrinho_id) REFERENCES carrinho(id),
-    FOREIGN KEY (produto_id) REFERENCES produtos(id)
-);
-
-CREATE TABLE historico_compras (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    usuario_id INT NOT NULL,
-    total DECIMAL(10, 2) NOT NULL,
-    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
-);
-
-CREATE TABLE historico_itens (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    compra_id INT NOT NULL,
-    produto_id INT NOT NULL,
-    quantidade INT NOT NULL,
-    preco DECIMAL(10, 2) NOT NULL,
-    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (compra_id) REFERENCES historico_compras(id),
     FOREIGN KEY (produto_id) REFERENCES produtos(id)
 );
 
@@ -83,7 +67,6 @@ CREATE TABLE residencia (
     estado VARCHAR(50) NOT NULL,
     cep VARCHAR(10) NOT NULL,
     pais VARCHAR(100) NOT NULL,
-    tipo ENUM('RESIDENCIAL', 'ENTREGA') NOT NULL,
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
