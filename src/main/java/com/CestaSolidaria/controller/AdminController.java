@@ -1,5 +1,7 @@
 package com.CestaSolidaria.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.CestaSolidaria.domain.user.admin.UserAdminService;
 import com.CestaSolidaria.domain.user.admin.dto.DataRegisterVistoria;
 import com.CestaSolidaria.domain.user.admin.dto.DataStatusUser;
+import com.CestaSolidaria.domain.user.admin.historicocredito.dto.DataHistoricoCredito;
 import com.CestaSolidaria.domain.user.enums.Status;
 
 import jakarta.validation.Valid;
@@ -41,6 +44,12 @@ public class AdminController {
     @PostMapping
     public ResponseEntity<?> vistoria(@Valid DataRegisterVistoria data){
 		return userAdminService.vistoria(data);	
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<DataHistoricoCredito>> HistoricoCredito(@PageableDefault(size = 10,
+															   sort = {"id"}) Pageable pageable) {
+		return ResponseEntity.ok(userAdminService.historicoCredito(pageable));
 	}
 
 }

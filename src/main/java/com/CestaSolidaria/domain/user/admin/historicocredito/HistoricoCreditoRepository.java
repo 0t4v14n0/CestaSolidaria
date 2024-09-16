@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface HistoricoCreditoRepository extends JpaRepository<HistoricoCredito, Long> {
 	
-	Page findAll(Pageable page);
+	Page<HistoricoCredito> findAll(Pageable page);
 
 }
