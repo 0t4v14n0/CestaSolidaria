@@ -22,7 +22,7 @@ public class DependenteService {
 	@Autowired
 	private UserService userService;
 	
-	public DataDeteilsDependente addDependente (DataRegisterDependente data, String nome) {
+	public DataDeteilsDependente addDependente(DataRegisterDependente data, String nome) {
 		
 		Dependente dep = new Dependente(data,userService.buscaUsuario(nome));
 		dependenteRepository.save(dep);

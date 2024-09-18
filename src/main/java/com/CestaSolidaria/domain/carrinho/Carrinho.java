@@ -1,10 +1,13 @@
 package com.CestaSolidaria.domain.carrinho;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.CestaSolidaria.domain.carrinho.enums.StatusCarrinho;
+import com.CestaSolidaria.domain.carrinho.item.CarrinhoItem;
 import com.CestaSolidaria.domain.user.User;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -13,6 +16,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Table(name = "carrinho")
@@ -34,7 +38,10 @@ public class Carrinho {
 	
 	@JoinColumn(name = "criado_em")
 	private LocalDateTime criadoEm;
-
+	
+	@OneToMany(mappedBy = "carrinho", cascade = CascadeType.ALL)
+	private List<CarrinhoItem> itens;
+		
 	public Long getId() {
 		return id;
 	}

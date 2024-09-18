@@ -49,4 +49,8 @@ public class ProdutoService {
 		return total;
 	}
 
+	public Produto getProduto(int idProduto) {
+		return produtoRepository.findById((long) idProduto).get();
+	}
+
 }
