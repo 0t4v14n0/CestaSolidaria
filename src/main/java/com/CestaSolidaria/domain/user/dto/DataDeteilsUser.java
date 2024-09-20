@@ -1,11 +1,12 @@
 package com.CestaSolidaria.domain.user.dto;
 
 import com.CestaSolidaria.domain.user.User;
+import com.CestaSolidaria.domain.user.enums.Status;
 
 public record DataDeteilsUser(String nome,
-							  String Status) {
+							  Status status) {
 
     public DataDeteilsUser(User user) {
-        this(user.getNome(), user.getStatus().name());
+        this(user.getNome(), user.getStatus());
     }
 }

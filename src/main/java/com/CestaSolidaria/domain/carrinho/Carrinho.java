@@ -61,6 +61,14 @@ public class Carrinho {
 	public double getTotal() {
 		return total;
 	}
+	
+	public List<CarrinhoItem> getItens() {
+		return itens;
+	}
+
+	public void setItens(List<CarrinhoItem> itens) {
+		this.itens = itens;
+	}
 
 	public void setTotal(double total) {
 		this.total = total;

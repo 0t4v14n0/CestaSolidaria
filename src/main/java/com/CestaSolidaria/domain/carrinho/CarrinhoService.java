@@ -27,4 +27,8 @@ public class CarrinhoService {
 		return carrinho;
 	}
 
+	public void save(Carrinho carrinho) {
+		carrinhoRepository.save(carrinho);
+	}
+
 }

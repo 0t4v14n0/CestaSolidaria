@@ -13,7 +13,14 @@ public record DataDeteilsProduto(Long id,
 		  						 String urlImagem) {
 
 	public DataDeteilsProduto(Produto produto) {
-		this(produto.getId(),produto.getNome(),produto.getDescricao(),produto.getPreco(),produto.getQuantidade(),produto.getVolume(),produto.getCategoria(),produto.getUrlImagem());
+		this(produto.getId(),
+			 produto.getNome(),
+			 produto.getDescricao(),
+			 produto.getPreco(),
+			 produto.getQuantidade(),
+			 produto.getVolume(),
+			 produto.getCategoria(),
+			 produto.getUrlImagem());
 	}
 
 }
