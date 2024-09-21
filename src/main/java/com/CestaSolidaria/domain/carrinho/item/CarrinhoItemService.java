@@ -35,8 +35,8 @@ public class CarrinhoItemService {
 			new EntityNotFoundException("Produto nao encontrado !");
 		}
 		
-		item.setCarrinhoId(carrinhoService.getCarrinhoAbertoUser(cpf));
-		item.setProdutoId(produto);
+		item.setCarrinho(carrinhoService.getCarrinhoAbertoUser(cpf));
+		item.setProduto(produto);
 		item.setQuantidade(data.quantidade());
 		item.setPreco(produto.getPreco());
 		

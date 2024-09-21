@@ -29,7 +29,7 @@ public class Carrinho {
 	
 	@ManyToOne
 	@JoinColumn(name = "usuario_id")
-	private User usuarioId;
+	private User user;
 	
 	private double total;
 	
@@ -51,11 +51,11 @@ public class Carrinho {
 	}
 
 	public User getUsuarioId() {
-		return usuarioId;
+		return user;
 	}
 
 	public void setUsuarioId(User usuarioId) {
-		this.usuarioId = usuarioId;
+		this.user = usuarioId;
 	}
 
 	public double getTotal() {

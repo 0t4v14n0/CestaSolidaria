@@ -7,7 +7,7 @@ public record DataDetalhamentoItem(DataDeteilsProduto produto,
 								   int quantidade) {
 	
 	public DataDetalhamentoItem(CarrinhoItem item) {
-		this(new DataDeteilsProduto(item.getProdutoId()),item.getQuantidade());
+		this(new DataDeteilsProduto(item.getProduto()),item.getQuantidade());
 	}
 
 }

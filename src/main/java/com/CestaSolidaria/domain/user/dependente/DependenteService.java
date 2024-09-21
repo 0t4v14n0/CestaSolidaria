@@ -48,7 +48,7 @@ public class DependenteService {
 	
 	public List<DataDeteilsDependente> todosDependentes(String cpf) {
 		
-		List<Dependente> dependentes = dependenteRepository.findAllByIdAndUser(userService.buscaUsuario(cpf));
+		List<Dependente> dependentes = dependenteRepository.findByIdAndUserId(userService.buscaUsuario(cpf).getId());
 		
     	if(dependentes.isEmpty()) {
     		new EntityNotFoundException("Dependentes não encontrado");
@@ -71,7 +71,7 @@ public class DependenteService {
 	}
 	
 	private Dependente findDependenteByUser(Long id, String cpf) {
-		return dependenteRepository.findDependenteByUserId(userService.buscaUsuario(cpf), id);
+		return dependenteRepository.findDependenteByUserId(userService.buscaUsuario(cpf).getId(), id);
 	}
 	
 }
