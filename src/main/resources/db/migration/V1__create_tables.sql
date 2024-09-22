@@ -67,6 +67,7 @@ CREATE TABLE residencia (
     estado VARCHAR(50) NOT NULL,
     cep VARCHAR(10) NOT NULL,
     pais VARCHAR(100) NOT NULL,
+    referencia VARCHAR(100) NOT NULL,
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );

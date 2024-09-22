@@ -16,9 +16,9 @@ public record DataRegisterUser(@NotBlank
 							   String telefone,
 							   @NotBlank
 							   String dataNascimento,
-							   @NotBlank
+							   
 							   double rendaTotal,
-							   @NotBlank
+							   
 							   Situacao situacao,
 							   @NotNull
 							   DataRegisterResidencia residencia) {}
