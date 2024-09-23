@@ -9,7 +9,7 @@ import com.CestaSolidaria.domain.user.enums.Status;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-	User findByCpf(String subject);
+	User findByCpf(String cpf);
 
 	List<User> findByStatus(Status status, Pageable pageable);
 

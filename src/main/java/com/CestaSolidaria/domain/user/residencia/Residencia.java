@@ -7,8 +7,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+
 
 @Table(name = "residencia")
 @Entity(name = "Residencia")
@@ -18,7 +20,8 @@ public class Residencia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-    @OneToOne(mappedBy = "residencia")
+    @OneToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
     private User user;
     
 	private String endereco;
@@ -30,7 +33,8 @@ public class Residencia {
 	
 	public Residencia() {}
 	
-	public Residencia(DataRegisterResidencia dataRegisterResidencia) {
+	public Residencia(DataRegisterResidencia dataRegisterResidencia, User user) {
+		this.user = user;
 		this.endereco = dataRegisterResidencia.endereco();
 		this.cidade = dataRegisterResidencia.cidade();
 		this.estado = dataRegisterResidencia.estado();

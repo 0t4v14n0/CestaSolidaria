@@ -24,7 +24,7 @@ public class TokenService {
 	        try {
 	            var algoritmo = Algorithm.HMAC256(secret);
 	            return JWT.create()
-	                .withIssuer("API CineTrack")
+	                .withIssuer("API CestaSolidaria")
 	                .withSubject(user.getCpf())
 	                .withClaim("id", user.getId())
 	                .withExpiresAt(dataExpiracao())
@@ -38,7 +38,7 @@ public class TokenService {
 	        try {
 	            var algoritmo = Algorithm.HMAC256(secret);
 	            return JWT.require(algoritmo)
-	                            .withIssuer("API CineTrack")
+	                            .withIssuer("API CestaSolidaria")
 	                            .build()
 	                            .verify(tokenJWT)
 	                            .getSubject();

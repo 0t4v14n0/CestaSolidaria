@@ -10,11 +10,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.CestaSolidaria.domain.user.admin.dto.DataStatusUser;
 import com.CestaSolidaria.domain.user.dto.DataAutenticationUser;
 import com.CestaSolidaria.domain.user.dto.DataDeteilsUser;
 import com.CestaSolidaria.domain.user.dto.DataRegisterUser;
 import com.CestaSolidaria.domain.user.enums.Status;
 import com.CestaSolidaria.domain.user.residencia.Residencia;
+import com.CestaSolidaria.domain.user.residencia.ResidenciaService;
 import com.CestaSolidaria.infra.security.TokenDataJWT;
 import com.CestaSolidaria.infra.security.TokenService;
 
@@ -34,12 +36,19 @@ public class UserService {
     
     @Autowired
     private TokenService tokenService;
+    
+    @Autowired
+    private ResidenciaService residenciaService;
 	
 	public ResponseEntity<DataDeteilsUser> registerUsuario(DataRegisterUser data,
 								UriComponentsBuilder uriBuilder) {
     	var user = new User(data);
-    	user.setSenha(passwordCrypt(data.senha()));   	
-    	userRepository.save(user);    	
+    	user.setSenha(passwordCrypt(data.senha()));
+    	userRepository.save(user);
+    	Residencia residencia = new Residencia(data.residencia(),user);
+    	residenciaService.saveResidencia(residencia);
+    	user.setResidencia(residencia);
+    	userRepository.save(user);
     	var uri = uriBuilder.path("").buildAndExpand(user.getId()).toUri();
 		return ResponseEntity.created(uri).body(new DataDeteilsUser(user));
 	}
@@ -47,11 +56,11 @@ public class UserService {
 	public ResponseEntity<TokenDataJWT> login (DataAutenticationUser data){
         var authenticationToken = new UsernamePasswordAuthenticationToken(data.cpf(), data.password());
         var authentication = manager.authenticate(authenticationToken);   
-        var tokenJWT = tokenService.gerarToken((User)authentication.getPrincipal());   
+        var tokenJWT = tokenService.gerarToken((User)authentication.getPrincipal());  
         return ResponseEntity.ok(new TokenDataJWT(tokenJWT)); 
 	}
 	
-	public DataDeteilsUser atualizarUser(@Valid DataRegisterUser data, String cpf) {
+	public DataStatusUser atualizarUser(@Valid DataRegisterUser data, String cpf) {
 		
 		User user = buscaUsuario(cpf);
 
@@ -60,9 +69,9 @@ public class UserService {
 		if(data.senha() != null && !data.senha().isEmpty())user.setSenha(data.senha());
 		if(data.telefone() != null && !data.telefone().isEmpty())user.setTelefone(data.telefone());
 		if(data.situacao() != null)user.setSituacao(data.situacao());
-		if(data.residencia() != null)user.setResidencia(new Residencia(data.residencia()));
+		if(data.residencia() != null)user.setResidencia(residenciaService.atualiza(data.residencia(),user.getResidencia()));
 		
-		return new DataDeteilsUser(user);
+		return new DataStatusUser(user);
 	}
 	
     private String passwordCrypt(String password) {

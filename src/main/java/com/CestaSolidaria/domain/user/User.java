@@ -89,7 +89,6 @@ public class User implements UserDetails{
 		this.situacao = dataRegisterUser.situacao();
 		this.creditos = 0;
 		this.criadoEm = LocalDateTime.now();
-		this.residencia = new Residencia(dataRegisterUser.residencia());
 	}
 
 	public Long getId() {
@@ -108,14 +107,6 @@ public class User implements UserDetails{
 		this.nome = nome;
 	}
 
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
 	public String getCpf() {
 		return cpf;
 	}
@@ -124,24 +115,16 @@ public class User implements UserDetails{
 		this.cpf = cpf;
 	}
 
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
 	public String getTelefone() {
 		return telefone;
-	}
-
-	public String getDataNascimento() {
-		return dataNascimento;
-	}
-
-	public void setDataNasdimento(String dataNascimento) {
-		this.dataNascimento = dataNascimento;
-	}
-
-	public double getRendaTotal() {
-		return rendaTotal;
-	}
-
-	public void setRendaTotal(double rendaTotal) {
-		this.rendaTotal = rendaTotal;
 	}
 
 	public void setTelefone(String telefone) {
@@ -156,8 +139,20 @@ public class User implements UserDetails{
 		this.tipoBeneficio = tipoBeneficio;
 	}
 
+	public String getDataNascimento() {
+		return dataNascimento;
+	}
+
 	public void setDataNascimento(String dataNascimento) {
 		this.dataNascimento = dataNascimento;
+	}
+
+	public double getRendaTotal() {
+		return rendaTotal;
+	}
+
+	public void setRendaTotal(double rendaTotal) {
+		this.rendaTotal = rendaTotal;
 	}
 
 	public Role getRole() {
@@ -166,6 +161,14 @@ public class User implements UserDetails{
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+
+	public double getCreditos() {
+		return creditos;
+	}
+
+	public void setCreditos(double creditos) {
+		this.creditos = creditos;
 	}
 
 	public Status getStatus() {
@@ -182,14 +185,6 @@ public class User implements UserDetails{
 
 	public void setSituacao(Situacao situacao) {
 		this.situacao = situacao;
-	}
-
-	public double getCreditos() {
-		return creditos;
-	}
-
-	public void setCreditos(double creditos) {
-		this.creditos = creditos;
 	}
 
 	public LocalDateTime getCriadoEm() {

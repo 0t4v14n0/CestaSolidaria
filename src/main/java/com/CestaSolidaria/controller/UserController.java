@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.CestaSolidaria.domain.user.UserService;
+import com.CestaSolidaria.domain.user.admin.dto.DataStatusUser;
 import com.CestaSolidaria.domain.user.dto.DataAutenticationUser;
 import com.CestaSolidaria.domain.user.dto.DataDeteilsUser;
 import com.CestaSolidaria.domain.user.dto.DataRegisterUser;
-import com.CestaSolidaria.infra.security.TokenDataJWT;
 
 import jakarta.validation.Valid;
 
@@ -36,13 +36,13 @@ public class UserController {
 	
     @Transactional
     @PostMapping("/login")
-    public ResponseEntity<TokenDataJWT> login(@RequestBody @Valid DataAutenticationUser data) {
+    public ResponseEntity<?> login(@RequestBody @Valid DataAutenticationUser data) {
         return userService.login(data);
     }
     
     @Transactional
     @PutMapping
-    public ResponseEntity<DataDeteilsUser> atualizarUser(@RequestBody @Valid DataRegisterUser data,
+    public ResponseEntity<DataStatusUser> atualizarUser(@RequestBody @Valid DataRegisterUser data,
     													 Authentication authentication){
 		return ResponseEntity.ok(userService.atualizarUser(data,authentication.getName()));
     }
