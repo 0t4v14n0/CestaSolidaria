@@ -48,8 +48,8 @@ public class UserController {
     }
     
     @GetMapping
-    public ResponseEntity<DataDeteilsUser> detalheUsuario(Authentication authentication){
-		return ResponseEntity.ok(new DataDeteilsUser(userService.buscaUsuario(authentication.getName())));
+    public ResponseEntity<DataStatusUser> detalheUsuario(Authentication authentication){
+		return ResponseEntity.ok(new DataStatusUser(userService.buscaUsuario(authentication.getName())));
     }
     
 }

@@ -25,7 +25,7 @@ public class Dependente {
 	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "usuario_id")
 	private User user;
 	
 	private String nome;
