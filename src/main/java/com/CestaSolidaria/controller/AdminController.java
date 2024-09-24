@@ -1,7 +1,5 @@
 package com.CestaSolidaria.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,7 +45,7 @@ public class AdminController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<DataHistoricoCredito>> HistoricoCredito(@PageableDefault(size = 10,
+	public ResponseEntity<Page<DataHistoricoCredito>> HistoricoCredito(@PageableDefault(size = 10,
 															   sort = {"id"}) Pageable pageable) {
 		return ResponseEntity.ok(userAdminService.historicoCredito(pageable));
 	}

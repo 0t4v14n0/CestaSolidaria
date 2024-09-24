@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +44,7 @@ public class CreditoService {
     
     private void creditarContasUsuarios() {
     	
-    	List<User> users = userService.findByStatus(Status.APROVADO);
+    	Page<User> users = userService.findByStatus(Status.APROVADO);
     	
     	if(users.isEmpty()) {
     		new EntityNotFoundException("Usuarios não encontrados");
@@ -72,7 +73,7 @@ public class CreditoService {
     	
     	double totalPrecoEstoque = produtoService.valorTotalMercadoria();
     	
-    	List<User> users = userService.findByStatus(Status.APROVADO);
+    	Page<User> users = userService.findByStatus(Status.APROVADO);
     	
         Map<TipoBeneficio, Long> quantidadePorBeneficio = users.stream()
                 .collect(Collectors.groupingBy(User::getTipoBeneficio, Collectors.counting()));

@@ -1,7 +1,5 @@
 package com.CestaSolidaria.domain.user.admin;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +10,7 @@ import com.CestaSolidaria.domain.user.User;
 import com.CestaSolidaria.domain.user.UserRepository;
 import com.CestaSolidaria.domain.user.admin.dto.DataRegisterVistoria;
 import com.CestaSolidaria.domain.user.admin.dto.DataStatusUser;
+import com.CestaSolidaria.domain.user.admin.historicocredito.HistoricoCredito;
 import com.CestaSolidaria.domain.user.admin.historicocredito.HistoricoCreditoService;
 import com.CestaSolidaria.domain.user.admin.historicocredito.dto.DataHistoricoCredito;
 import com.CestaSolidaria.domain.user.dependente.DependenteService;
@@ -36,8 +35,7 @@ public class UserAdminService {
 	
 	public Page<DataStatusUser> statusUsuario (Pageable pageable,Status status) {
 		
-	    @SuppressWarnings("unchecked")
-		Page<User> users = (Page<User>) userRepository.findByStatus(status, pageable);
+		Page<User> users = userRepository.findByStatus(status, pageable);
 	    Page<DataStatusUser> data = users.map(DataStatusUser::new);	
 		return data;
 	}
@@ -60,8 +58,16 @@ public class UserAdminService {
 		return TipoBeneficio.fromValor(tipoBeneficio);
 	}
 
-	public List<DataHistoricoCredito> historicoCredito(Pageable pageable) {
-		return historicoCreditoService.historicoCredito(pageable);
+	public Page<DataHistoricoCredito> historicoCredito(Pageable pageable) {
+
+	    Page<HistoricoCredito> historicoCreditoPage = historicoCreditoService.historicoCredito(pageable);
+
+	    return historicoCreditoPage.map(h -> new DataHistoricoCredito(
+	        h.getUsuarioId(),
+	        h.getTipo(),
+	        h.getValor(),
+	        h.getDescricao()
+	    ));
 	}
 
 }

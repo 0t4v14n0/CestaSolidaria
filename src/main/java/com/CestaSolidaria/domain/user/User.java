@@ -33,7 +33,6 @@ import java.util.List;
 @Entity(name = "User")
 public class User implements UserDetails{
 	
-
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -84,7 +83,7 @@ public class User implements UserDetails{
 		this.telefone = dataRegisterUser.telefone();
 		this.dataNascimento = dataRegisterUser.dataNascimento();
 		this.rendaTotal = dataRegisterUser.rendaTotal();
-		this.role = Role.ADMIN;
+		this.role = Role.USER;
 		this.status = Status.PENDENTE;
 		this.situacao = dataRegisterUser.situacao();
 		this.creditos = 0;

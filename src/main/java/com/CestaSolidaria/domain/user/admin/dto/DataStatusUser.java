@@ -10,7 +10,8 @@ import com.CestaSolidaria.domain.user.enums.Situacao;
 import com.CestaSolidaria.domain.user.enums.Status;
 import com.CestaSolidaria.domain.user.residencia.dto.DataRegisterResidencia;
 
-public record DataStatusUser(String nome,
+public record DataStatusUser(Long id,
+							 String nome,
 							 String cpf,
 							 String telefone,
 							 Situacao situacao,
@@ -21,7 +22,7 @@ public record DataStatusUser(String nome,
 							 ) {
 	
 	public DataStatusUser(User user) {
-		this(user.getNome(), user.getCpf(), user.getTelefone(), user.getSituacao(), user.getStatus(), user.getCriadoEm(),
+		this(user.getId(),user.getNome(), user.getCpf(), user.getTelefone(), user.getSituacao(), user.getStatus(), user.getCriadoEm(),
 			 new DataRegisterResidencia(user.getResidencia()),
 			 user.getDependentes().stream()
             					  .map(DataDeteilsDependente::new)

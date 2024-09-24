@@ -1,7 +1,6 @@
 package com.CestaSolidaria.domain.user.admin.historicocredito;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +18,8 @@ public class HistoricoCreditoService {
 		historicoCreditoRepository.save(historico);
 	}
 	
-	public List<DataHistoricoCredito> historicoCredito (Pageable page) {
-		return DataHistoricoCredito.fromPage(historicoCreditoRepository.findAll(page));
+	public Page<HistoricoCredito> historicoCredito (Pageable page) {
+		return historicoCreditoRepository.findAll(page);
 	}
 
 }
