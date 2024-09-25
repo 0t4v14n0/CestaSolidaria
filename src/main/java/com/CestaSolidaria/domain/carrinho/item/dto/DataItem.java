@@ -1,4 +1,4 @@
 package com.CestaSolidaria.domain.carrinho.item.dto;
 
-public record DataItem(int idProduto,
+public record DataItem(Long idProduto,
 					   int quantidade) {}

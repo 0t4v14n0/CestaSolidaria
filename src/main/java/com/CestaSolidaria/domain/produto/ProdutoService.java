@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.CestaSolidaria.domain.produto.dto.DataDeteilsProduto;
 import com.CestaSolidaria.domain.produto.dto.DataRegisterProduto;
+import com.CestaSolidaria.domain.produto.dto.DataUpdatedProduto;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -22,7 +23,7 @@ public class ProdutoService {
 		return new DataDeteilsProduto(produto);
 	}
 	
-	public DataDeteilsProduto updatedProduto(Long id, DataRegisterProduto data) {
+	public DataDeteilsProduto updatedProduto(Long id, DataUpdatedProduto data) {
 		
 		Produto produto = produtoRepository.findById(id).get();
 		
@@ -37,6 +38,8 @@ public class ProdutoService {
 		if(data.volume() != null && !data.volume().isEmpty()) produto.setVolume(data.volume());
 		if(data.categoria() != null)produto.setCategoria(data.categoria());
 		if(data.urlImagem() != null && !data.urlImagem().isEmpty()) produto.setUrlImagem(data.urlImagem());
+		
+		produtoRepository.save(produto);
 
 		return new DataDeteilsProduto(produto);
 	}
@@ -49,8 +52,23 @@ public class ProdutoService {
 		return total;
 	}
 
-	public Produto getProduto(int idProduto) {
-		return produtoRepository.findById((long) idProduto).get();
+	public Produto getProduto(Long idProduto) {
+		return produtoRepository.findById(idProduto).get();
+	}
+
+	public DataDeteilsProduto atualizarEstoqueProduto(Long id, int q, DataUpdatedProduto produto) {
+		
+		Produto p = getProduto(id);
+		
+		p.setQuantidade(p.getQuantidade() + q);
+		
+		if(p.getQuantidade() < 0) {
+			new EntityNotFoundException("Nao a quantidade suficiente.");
+		}
+		
+		produtoRepository.save(p);
+		
+		return new DataDeteilsProduto(p);
 	}
 
 }
