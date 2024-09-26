@@ -79,7 +79,7 @@ public class UserService {
     }
 
 	public User buscaUsuario(String cpf) {
-		return (User)userRepository.findByCpf(cpf);
+		return userRepository.findByCpf(cpf);
 	}
 
 	public Page<User> findByStatus(Status status) {

@@ -22,6 +22,7 @@ import com.CestaSolidaria.domain.user.admin.UserAdminService;
 import com.CestaSolidaria.domain.user.admin.dto.DataRegisterVistoria;
 import com.CestaSolidaria.domain.user.admin.dto.DataStatusUser;
 import com.CestaSolidaria.domain.user.admin.historicocredito.dto.DataHistoricoCredito;
+import com.CestaSolidaria.domain.user.dto.DataDeteilsUser;
 import com.CestaSolidaria.domain.user.enums.Status;
 
 import jakarta.validation.Valid;
@@ -37,14 +38,15 @@ public class AdminController {
 	private ProdutoService produtoService;
 	
 	@GetMapping("/{status}")
-	public ResponseEntity<Page<DataStatusUser>> buscaPorStatus(@PathVariable Status status,@PageableDefault(size = 10,
-			  																								sort = {"id"}) Pageable pageable){
+	public ResponseEntity<Page<DataStatusUser>> buscaPorStatus(@PathVariable Status status,
+															   @PageableDefault(size = 10,
+			  																	sort = {"id"}) Pageable pageable){
 		return ResponseEntity.ok(userAdminService.statusUsuario(pageable, status));	
 	}
 	
 	@Transactional
     @PostMapping
-    public ResponseEntity<?> vistoria(@Valid @RequestBody DataRegisterVistoria data){
+    public ResponseEntity<DataDeteilsUser> vistoria(@Valid @RequestBody DataRegisterVistoria data){
 		return userAdminService.vistoria(data);	
 	}
 	
@@ -53,6 +55,8 @@ public class AdminController {
 															   sort = {"id"}) Pageable pageable) {
 		return ResponseEntity.ok(userAdminService.historicoCredito(pageable));
 	}
+	
+	//Produtos
 	
 	@Transactional
     @PostMapping("/produto/novo")
@@ -67,14 +71,11 @@ public class AdminController {
     }
     
     @Transactional
-    @PutMapping("/produto/atualizar/{id}/{q}")
+    @PutMapping("/produto/estoque/{id}/{q}")
     public ResponseEntity<DataDeteilsProduto> atualizarEstoqueProduto(@PathVariable Long id,
     																  @PathVariable int q,
     																  @RequestBody DataUpdatedProduto produto){
 		return ResponseEntity.ok(produtoService.atualizarEstoqueProduto(id, q, produto));
     }
-    
-    
-    
 
 }

@@ -46,6 +46,9 @@ public class ProdutoService {
 	
 	public double valorTotalMercadoria() {
 		List<Produto> p = produtoRepository.findAll();
+		if (p == null) {
+			new EntityNotFoundException("Produto nao encontrado !");
+		}
 		double total = p.stream()
                 .mapToDouble(Produto::getPreco)
                 .sum();
@@ -53,7 +56,13 @@ public class ProdutoService {
 	}
 
 	public Produto getProduto(Long idProduto) {
-		return produtoRepository.findById(idProduto).get();
+		
+		Produto produto = produtoRepository.findById(idProduto).get();
+		
+		if (produto == null) {
+			new EntityNotFoundException("Produto nao encontrado !");
+		}
+		return produto;
 	}
 
 	public DataDeteilsProduto atualizarEstoqueProduto(Long id, int q, DataUpdatedProduto produto) {
