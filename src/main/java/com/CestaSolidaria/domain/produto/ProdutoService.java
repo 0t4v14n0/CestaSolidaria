@@ -3,6 +3,8 @@ package com.CestaSolidaria.domain.produto;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.CestaSolidaria.domain.produto.dto.DataDeteilsProduto;
@@ -78,6 +80,15 @@ public class ProdutoService {
 		produtoRepository.save(p);
 		
 		return new DataDeteilsProduto(p);
+	}
+	
+	public Page<DataDeteilsProduto> totosProdutos(Pageable page){
+		
+		Page<Produto> produto = produtoRepository.findAll(page);
+		
+		if(produto.isEmpty())new EntityNotFoundException("Nao a produtos cadastrados.");;
+
+		return produto.map(p -> new DataDeteilsProduto(p));	
 	}
 
 }
