@@ -14,7 +14,7 @@ public record DataRegisterProduto(@NotNull
 								  int quantidade,
 								  @NotNull
 								  String volume,
-								  @NotNull
+
 								  Categoria categoria,
 								  @NotNull
 								  String urlImagem) {}

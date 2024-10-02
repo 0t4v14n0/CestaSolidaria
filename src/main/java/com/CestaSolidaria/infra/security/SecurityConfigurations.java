@@ -26,7 +26,7 @@ public class SecurityConfigurations {
               http.csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
-                	req.requestMatchers("/admin").hasAnyAuthority("ADMIN");
+                	req.requestMatchers("/admin", "/admin/**").hasAnyAuthority("ADMIN");
                 	req.requestMatchers("/publico").permitAll();
                     req.requestMatchers("user/login").permitAll();
                     req.requestMatchers("user/register").permitAll();

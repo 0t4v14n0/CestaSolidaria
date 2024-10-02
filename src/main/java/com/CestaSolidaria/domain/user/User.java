@@ -4,30 +4,36 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.CestaSolidaria.domain.user.dependente.Dependente;
 import com.CestaSolidaria.domain.user.dto.DataRegisterUser;
-import com.CestaSolidaria.domain.user.enums.Role;
 import com.CestaSolidaria.domain.user.enums.Situacao;
 import com.CestaSolidaria.domain.user.enums.Status;
 import com.CestaSolidaria.domain.user.enums.TipoBeneficio;
 import com.CestaSolidaria.domain.user.residencia.Residencia;
+import com.CestaSolidaria.domain.user.role.Role;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Table(name = "usuarios")
 @Entity(name = "User")
@@ -53,8 +59,13 @@ public class User implements UserDetails{
 	@JoinColumn(name = "renda_total")
 	private double rendaTotal;
 	
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "usuario_roles",
+        joinColumns = @JoinColumn(name = "usuario_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles;
     
     private double creditos;
 
@@ -76,14 +87,15 @@ public class User implements UserDetails{
 	
 	public User() {}
 	
-	public User(DataRegisterUser dataRegisterUser) {
+	public User(DataRegisterUser dataRegisterUser, Role defaultRole) {
 		this.nome = dataRegisterUser.nome();
 		this.senha = dataRegisterUser.senha();
 		this.cpf = dataRegisterUser.cpf();
 		this.telefone = dataRegisterUser.telefone();
 		this.dataNascimento = dataRegisterUser.dataNascimento();
 		this.rendaTotal = dataRegisterUser.rendaTotal();
-		this.role = Role.USER;
+		this.roles = new HashSet<>();
+	    this.roles.add(defaultRole);
 		this.status = Status.PENDENTE;
 		this.situacao = dataRegisterUser.situacao();
 		this.creditos = 0;
@@ -154,14 +166,6 @@ public class User implements UserDetails{
 		this.rendaTotal = rendaTotal;
 	}
 
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
-	}
-
 	public double getCreditos() {
 		return creditos;
 	}
@@ -212,8 +216,9 @@ public class User implements UserDetails{
 
 	@Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(role);
-    }
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toList());    }
 	
 	@Override
 	public String getPassword() {

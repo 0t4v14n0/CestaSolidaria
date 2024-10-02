@@ -59,13 +59,13 @@ public class AdminController {
 	//Produtos
 	
 	@Transactional
-    @PostMapping("/produto/novo")
+    @PostMapping("/produto")
     public ResponseEntity<DataDeteilsProduto> novoProduto(@Valid @RequestBody DataRegisterProduto produto){
 		return ResponseEntity.ok(produtoService.addProduto(produto));
 	}
 	
     @Transactional
-    @PutMapping("/produto/atualizar/{id}")
+    @PutMapping("/produto/{id}")
     public ResponseEntity<DataDeteilsProduto> updateProduto(@PathVariable Long id, @RequestBody DataUpdatedProduto produto){
 		return ResponseEntity.ok(produtoService.updatedProduto(id, produto));
     }

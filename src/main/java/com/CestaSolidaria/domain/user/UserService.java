@@ -16,6 +16,8 @@ import com.CestaSolidaria.domain.user.dto.DataRegisterUser;
 import com.CestaSolidaria.domain.user.enums.Status;
 import com.CestaSolidaria.domain.user.residencia.Residencia;
 import com.CestaSolidaria.domain.user.residencia.ResidenciaService;
+import com.CestaSolidaria.domain.user.role.Role;
+import com.CestaSolidaria.domain.user.role.RoleService;
 import com.CestaSolidaria.infra.security.TokenDataJWT;
 import com.CestaSolidaria.infra.security.TokenService;
 
@@ -37,11 +39,15 @@ public class UserService {
     private TokenService tokenService;
     
     @Autowired
+    private RoleService roleService;
+    
+    @Autowired
     private ResidenciaService residenciaService;
 	
 	public ResponseEntity<DataDeteilsUser> registerUsuario(DataRegisterUser data,
 								UriComponentsBuilder uriBuilder) {
-    	var user = new User(data);
+		Role role = roleService.findByNameRole("ADMIN");
+    	var user = new User(data, role);
     	user.setSenha(passwordCrypt(data.senha()));
     	userRepository.save(user);
     	Residencia residencia = new Residencia(data.residencia(),user);
