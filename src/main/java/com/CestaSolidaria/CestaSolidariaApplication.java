@@ -11,5 +11,4 @@ public class CestaSolidariaApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CestaSolidariaApplication.class, args);
 	}
-
 }
