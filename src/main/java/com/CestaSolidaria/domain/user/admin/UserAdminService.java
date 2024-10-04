@@ -1,5 +1,7 @@
 package com.CestaSolidaria.domain.user.admin;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +19,8 @@ import com.CestaSolidaria.domain.user.dependente.DependenteService;
 import com.CestaSolidaria.domain.user.dto.DataDeteilsUser;
 import com.CestaSolidaria.domain.user.enums.Status;
 import com.CestaSolidaria.domain.user.enums.TipoBeneficio;
+import com.CestaSolidaria.domain.user.role.Role;
+import com.CestaSolidaria.domain.user.role.RoleService;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -31,22 +35,33 @@ public class UserAdminService {
 	private DependenteService dependenteService;
 	
 	@Autowired
+	private RoleService roleService;
+	
+	@Autowired
 	private HistoricoCreditoService historicoCreditoService;
 	
-	public Page<DataStatusUser> statusUsuario (Pageable pageable,Status status) {
+	public Page<DataStatusUser> statusUsuario(Pageable pageable, Status status) {
 		
 		Page<User> users = userRepository.findByStatus(status, pageable);
 	    Page<DataStatusUser> data = users.map(DataStatusUser::new);	
 		return data;
 	}
-
+	
 	public ResponseEntity<DataDeteilsUser> vistoria(@Valid DataRegisterVistoria data) {
 		
 		User user = userRepository.findById(data.id())
 								  .orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));
-		if(data.status() == Status.APROVADO) {
+		
+	    if (data.status() == Status.APROVADO) {
 	        user.setTipoBeneficio(tipoBeneficio(user.getRendaTotal(), dependenteService.todosDependentes(user.getCpf()).size()));
-		}
+	        
+	        Role roleBeneficiario = roleService.findByNameRole("BENEFICIARIO");
+	        
+	        Set<Role> roles = user.getRoles();
+	        roles.add(roleBeneficiario);
+	        user.setRoles(roles);
+	    }
+	    
 		user.setStatus(data.status());
 		userRepository.save(user);
 		return ResponseEntity.ok(new DataDeteilsUser(user));
@@ -57,7 +72,7 @@ public class UserAdminService {
 		int tipoBeneficio = (rendaPercapita < 600) ? 1 : (rendaPercapita < 1200) ? 2 : 3;
 		return TipoBeneficio.fromValor(tipoBeneficio);
 	}
-
+	
 	public Page<DataHistoricoCredito> historicoCredito(Pageable pageable) {
 
 	    Page<HistoricoCredito> historicoCreditoPage = historicoCreditoService.historicoCredito(pageable);
@@ -69,5 +84,4 @@ public class UserAdminService {
 	        h.getDescricao()
 	    ));
 	}
-
 }

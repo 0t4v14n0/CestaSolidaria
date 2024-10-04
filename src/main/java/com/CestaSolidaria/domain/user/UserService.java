@@ -46,7 +46,7 @@ public class UserService {
 	
 	public ResponseEntity<DataDeteilsUser> registerUsuario(DataRegisterUser data,
 								UriComponentsBuilder uriBuilder) {
-		Role role = roleService.findByNameRole("ADMIN");
+		Role role = roleService.findByNameRole("USER");
     	var user = new User(data, role);
     	user.setSenha(passwordCrypt(data.senha()));
     	userRepository.save(user);
