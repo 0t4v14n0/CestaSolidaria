@@ -56,17 +56,6 @@
             <li>Use uma IDE como IntelliJ IDEA ou Eclipse para rodar o projeto.</li>
         </ul>
     </li>
-    <li><strong>Inicie a tabela de roles</strong>
-        <ul>
-            <li>Execute o comando abaixo:</li>
-            <code>INSERT INTO roles (role_name) VALUES ('USER'), ('ADMIN');</code>
-        </ul>
-    </li>
-    <li><strong>Agora é só aproveitar</strong>
-        <ul>
-            <li>Por fim, execute o projeto novamente.</li>
-        </ul>
-    </li>
 </ol>
 
 <h2>Diagrama do Banco de Dados</h2>

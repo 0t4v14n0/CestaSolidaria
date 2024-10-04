@@ -38,6 +38,13 @@ CREATE TABLE dependentes (
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
+CREATE TABLE categorias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL UNIQUE,
+    descricao TEXT,
+    criado_em TIMESTAMP
+);
+
 CREATE TABLE produtos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) UNIQUE NOT NULL,
@@ -45,16 +52,17 @@ CREATE TABLE produtos (
     preco DECIMAL(10, 2) NOT NULL,
     quantidade INT NOT NULL,
     volume VARCHAR(100) NOT NULL,
-    categoria ENUM('ALIMENTO', 'BEBIDA', 'LIMPEZA', 'HIGIENE', 'HORTIFRUTI', 'PADARIA', 'MERCEARIA', 'PAPELARIA'),
+    categoria_id INT,
     url_imagem VARCHAR(500) NOT NULL,
-    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (categoria_id) REFERENCES categorias(id)
 );
 
 CREATE TABLE carrinho (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario_id INT NOT NULL,
     total DECIMAL(10, 2) DEFAULT 0.00,
-    StatusCarrinho ENUM('ABERTO', 'FECHADO', 'CANCELADO', 'COLETADO') DEFAULT 'ABERTO',
+    StatusCarrinho ENUM('ABERTO', 'PREPARANDO', 'ESPERANDO_COLETA', 'CANCELADO', 'COLETADO') DEFAULT 'ABERTO',
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
@@ -94,3 +102,16 @@ CREATE TABLE historico_creditos (
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
+
+INSERT INTO roles (role_name) VALUES ('USER'), ('ADMIN'), ('BENEFICIARIO');
+
+INSERT INTO categorias (nome) 
+VALUES 
+('ALIMENTO'),
+('BEBIDA'),
+('LIMPEZA'),
+('HIGIENE'),
+('HORTIFRUTI'),
+('PADARIA'),
+('MERCEARIA'),
+('PAPELARIA');

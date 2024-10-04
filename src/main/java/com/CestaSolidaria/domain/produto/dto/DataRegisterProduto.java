@@ -1,7 +1,5 @@
 package com.CestaSolidaria.domain.produto.dto;
 
-import com.CestaSolidaria.domain.produto.enums.Categoria;
-
 import jakarta.validation.constraints.NotNull;
 
 public record DataRegisterProduto(@NotNull
@@ -14,7 +12,7 @@ public record DataRegisterProduto(@NotNull
 								  int quantidade,
 								  @NotNull
 								  String volume,
-
-								  Categoria categoria,
+								  @NotNull
+								  String categoria,
 								  @NotNull
 								  String urlImagem) {}

@@ -14,6 +14,8 @@ public record DataStatusUser(Long id,
 							 String nome,
 							 String cpf,
 							 String telefone,
+							 double rendaTotal,
+							 double rendaPercapita,
 							 Situacao situacao,
 							 Status status,
 							 LocalDateTime criadoEm,
@@ -22,11 +24,26 @@ public record DataStatusUser(Long id,
 							 ) {
 	
 	public DataStatusUser(User user) {
-		this(user.getId(),user.getNome(), user.getCpf(), user.getTelefone(), user.getSituacao(), user.getStatus(), user.getCriadoEm(),
+		this(user.getId(),
+			 user.getNome(),
+			 user.getCpf(),
+			 user.getTelefone(),
+			 user.getRendaTotal(),
+			 calcularRendaPerCapita(user.getRendaTotal(),
+					 				user.getDependentes().size()),
+			 user.getSituacao(),
+			 user.getStatus(),
+			 user.getCriadoEm(),
 			 new DataRegisterResidencia(user.getResidencia()),
 			 user.getDependentes().stream()
-            					  .map(DataDeteilsDependente::new)
-            					  .collect(Collectors.toList()));
+			 					  .map(DataDeteilsDependente::new)
+			 					  .collect(Collectors.toList()));
 	}
+	
+    private static double calcularRendaPerCapita(double rendaTotal,
+    											 int quantidadeDependentes) {
+        int totalPessoas = quantidadeDependentes + 1;
+        return rendaTotal / totalPessoas;
+    }
 	
 }

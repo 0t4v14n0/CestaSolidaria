@@ -2,16 +2,15 @@ package com.CestaSolidaria.domain.produto;
 
 import java.time.LocalDateTime;
 
+import com.CestaSolidaria.domain.produto.categoria.Categoria;
 import com.CestaSolidaria.domain.produto.dto.DataRegisterProduto;
-import com.CestaSolidaria.domain.produto.enums.Categoria;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Table(name = "produtos")
@@ -28,8 +27,9 @@ public class Produto {
 	private int quantidade;
 	private String volume;
 	
-	@Enumerated(EnumType.STRING)
-	private Categoria categoria;
+	@ManyToOne
+    @JoinColumn(name = "categoria_id", nullable = false)
+    private Categoria categoria;
 	
 	@JoinColumn(name = "url_imagem")
 	private String urlImagem;
@@ -45,7 +45,6 @@ public class Produto {
 		this.preco = data.preco();
 		this.quantidade = data.quantidade();
 		this.volume = data.volume();
-		this.categoria = data.categoria();
 		this.urlImagem = data.urlImagem();
 		this.criadoEm = LocalDateTime.now();
 	}

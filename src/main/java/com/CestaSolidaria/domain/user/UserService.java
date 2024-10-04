@@ -45,7 +45,7 @@ public class UserService {
     private ResidenciaService residenciaService;
 	
 	public ResponseEntity<DataDeteilsUser> registerUsuario(DataRegisterUser data,
-								UriComponentsBuilder uriBuilder) {
+														   UriComponentsBuilder uriBuilder) {
 		Role role = roleService.findByNameRole("USER");
     	var user = new User(data, role);
     	user.setSenha(passwordCrypt(data.senha()));

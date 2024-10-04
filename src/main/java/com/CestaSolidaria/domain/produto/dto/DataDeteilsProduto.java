@@ -1,7 +1,7 @@
 package com.CestaSolidaria.domain.produto.dto;
 
 import com.CestaSolidaria.domain.produto.Produto;
-import com.CestaSolidaria.domain.produto.enums.Categoria;
+import com.CestaSolidaria.domain.produto.categoria.dto.DataCategoria;
 
 public record DataDeteilsProduto(Long id,
 								 String nome,
@@ -9,7 +9,7 @@ public record DataDeteilsProduto(Long id,
 		  						 double preco,
 		  						 int quantidade,
 		  						 String volume,
-		  						 Categoria categoria,
+		  						 DataCategoria categoria,
 		  						 String urlImagem) {
 
 	public DataDeteilsProduto(Produto produto) {
@@ -19,7 +19,7 @@ public record DataDeteilsProduto(Long id,
 			 produto.getPreco(),
 			 produto.getQuantidade(),
 			 produto.getVolume(),
-			 produto.getCategoria(),
+			 new DataCategoria(produto.getCategoria()),
 			 produto.getUrlImagem());
 	}
 
