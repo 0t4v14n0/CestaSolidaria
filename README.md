@@ -59,4 +59,5 @@
 </ol>
 
 <h2>Diagrama do Banco de Dados</h2>
+
 <img id="diagrama" src="src/main/resources/static/images/db.png" alt="Diagrama do Banco de Dados" width="900" height="500">
